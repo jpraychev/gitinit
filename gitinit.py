@@ -35,6 +35,3 @@ def gitinit():
 
 if __name__ == "__main__":
     gitinit()
-
-
-    
