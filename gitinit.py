@@ -38,7 +38,20 @@ def get_git_info():
     infoTable.title = 'Global git settings'
     
     for k in INFO.keys():
-        infoTable.add_row([f'{k}', subprocess.run(['git', 'config', '--global', f'{INFO[k][0]}'], capture_output=True, text=True).stdout.strip('\n')])
+        stdout_raw = subprocess.run(['git', 'config', '--global', f'{INFO[k][0]}'], capture_output=True, text=True)
+        stdout_clear = stdout_raw.stdout.strip('\n')
+
+        if k == 'Dev OS':
+            if stdout_clear.lower() == 'true':
+                stdout_clear = 'Windows/MacOS'
+            elif stdout_clear.lower() == 'input':
+                stdout_clear = 'Linux'
+            else:
+                stdout_clear = 'Unknown OS'
+
+        infoTable.add_row([
+            f'{k}', stdout_clear
+        ])
     
     return infoTable
 
