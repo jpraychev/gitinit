@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from prettytable import PrettyTable
 
 # autocrlf: input for linux, true for Windows/MacOS, false otherwise
@@ -13,10 +14,10 @@ INFO = {
 
 def set_git_info():   
 
-    print('Please enter your INFO below:')
+    print('\nPlease enter your information below:\n')
     
     for k in INFO.keys():
-        INFO[k].append(input(f'\t{k}: '))
+        INFO[k].append(input(f'{k}: '))
 
         # Basic checks for user provided operating system
         
@@ -32,6 +33,8 @@ def set_git_info():
             'git', 'config', '--global', f'{INFO[k][0]}', f'{INFO[k][1]}' 
         ])
 
+    print(get_git_info())
+
 def get_git_info():
 
     infoTable = PrettyTable(['Variable', 'Value'])
@@ -42,6 +45,24 @@ def get_git_info():
     
     return infoTable
 
+def menu():
+    print('\n********* Welcome to GIT init *********\n')
+    choice = input(
+        '1: Set user information\
+         \n2: Get user information\
+         \n3: Print help menu\
+         \n4: Exit the program\n\
+         \nPlease enter an option: '
+    )
+
+    if choice == '1':
+        set_git_info()
+    elif choice == '2':
+        print(get_git_info())
+    elif choice == '3':
+        menu()
+    else:
+        sys.exit()
+
 if __name__ == "__main__":
-    
-    print(get_git_info())
+    menu()
