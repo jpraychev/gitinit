@@ -11,6 +11,7 @@ INFO = {
     'Dev OS' : ['core.autocrlf'],
     'Dev editor' : ['core.editor'],
 }
+print('test')
 
 def set_git_info():   
 
