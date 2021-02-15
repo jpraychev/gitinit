@@ -20,6 +20,21 @@ def set_git_info():
     for k in INFO.keys():
         INFO[k].append(input(f'{k}: '))
 
+        if k == 'Dev editor':
+            if INFO[k][1].lower() == 'vim':
+                INFO[k][1] = 'vim'
+            elif INFO[k][1].lower() == 'emacs':
+                INFO[k][1] = 'emacs'
+            elif INFO[k][1].lower() == 'atom':
+                INFO[k][1] = 'atom --wait'    
+            elif INFO[k][1].lower() == 'sublime':
+                INFO[k][1] = 'subl -n -w'
+            elif INFO[k][1].lower() == 'code':
+                INFO[k][1] = 'code -w'
+                print(INFO[k][1])
+            elif INFO[k][1].lower() == 'nano':
+                INFO[k][1] = 'nano -w' 
+
         # Basic checks for user provided operating system
         
         if k == 'Dev OS':
