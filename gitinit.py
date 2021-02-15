@@ -2,16 +2,26 @@ import subprocess
 import sys
 from prettytable import PrettyTable
 
-# autocrlf: input for linux, true for Windows/MacOS, false otherwise
-# editor: VSCode = code
 
-INFO = {
-    'Username' : ['user.name'],
-    'Email' : ['user.email'],
-    'Dev OS' : ['core.autocrlf'],
-    'Dev editor' : ['core.editor'],
-}
-print('test')
+def switcher(first):
+
+    switcher = {
+        # Text editors
+        'vim' : 'vim',
+        'emacs' : 'emacs',
+        'code' : 'code -w',
+        'nano' : 'nano -w',
+        'atom' : 'atom --wait',
+        'sublime' : 'subl -n -w',
+
+        # Operating systems
+        'linux' : 'input',
+        'macos' : 'input',
+        'windows' : 'true'
+    }
+
+    return switcher.get(first)
+
 
 def set_git_info():   
 
@@ -20,36 +30,15 @@ def set_git_info():
     for k in INFO.keys():
         INFO[k].append(input(f'{k}: '))
 
-        if k == 'Dev editor':
-            if INFO[k][1].lower() == 'vim':
-                INFO[k][1] = 'vim'
-            elif INFO[k][1].lower() == 'emacs':
-                INFO[k][1] = 'emacs'
-            elif INFO[k][1].lower() == 'atom':
-                INFO[k][1] = 'atom --wait'    
-            elif INFO[k][1].lower() == 'sublime':
-                INFO[k][1] = 'subl -n -w'
-            elif INFO[k][1].lower() == 'code':
-                INFO[k][1] = 'code -w'
-                print(INFO[k][1])
-            elif INFO[k][1].lower() == 'nano':
-                INFO[k][1] = 'nano -w' 
-
-        # Basic checks for user provided operating system
-        
-        if k == 'Dev OS':
-            if INFO[k][1].lower() == 'linux':
-                INFO[k][1] = 'input'
-            elif INFO[k][1].lower() == 'windows':
-                INFO[k][1] = 'true'
-            else:
-                INFO[k][1] = 'false'
+        if k == 'Dev OS' or k == 'Dev editor':
+            INFO[k][1] = switcher(INFO[k][1].lower())
 
         subprocess.run([
             'git', 'config', '--global', f'{INFO[k][0]}', f'{INFO[k][1]}' 
         ])
 
     print(get_git_info())
+
 
 def get_git_info():
 
@@ -60,6 +49,7 @@ def get_git_info():
         infoTable.add_row([f'{k}', subprocess.run(['git', 'config', '--global', f'{INFO[k][0]}'], capture_output=True, text=True).stdout.strip('\n')])
     
     return infoTable
+
 
 def menu():
     print('\n********* Welcome to GIT init *********\n')
@@ -80,5 +70,14 @@ def menu():
     else:
         sys.exit()
 
+
 if __name__ == "__main__":
+
+    INFO = {
+        'Username' : ['user.name'],
+        'Email' : ['user.email'],
+        'Dev OS' : ['core.autocrlf'],
+        'Dev editor' : ['core.editor'],
+    }
+
     menu()
