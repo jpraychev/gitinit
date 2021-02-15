@@ -2,7 +2,6 @@ import subprocess
 import sys
 from prettytable import PrettyTable
 
-
 def switcher(first):
 
     switcher = {
@@ -22,7 +21,6 @@ def switcher(first):
 
     return switcher.get(first)
 
-
 def set_git_info():   
 
     print('\nPlease enter your information below:\n')
@@ -39,7 +37,6 @@ def set_git_info():
 
     print(get_git_info())
 
-
 def get_git_info():
 
     infoTable = PrettyTable(['Variable', 'Value'])
@@ -49,7 +46,6 @@ def get_git_info():
         infoTable.add_row([f'{k}', subprocess.run(['git', 'config', '--global', f'{INFO[k][0]}'], capture_output=True, text=True).stdout.strip('\n')])
     
     return infoTable
-
 
 def menu():
     print('\n********* Welcome to GIT init *********\n')
@@ -69,7 +65,6 @@ def menu():
         menu()
     else:
         sys.exit()
-
 
 if __name__ == "__main__":
 
